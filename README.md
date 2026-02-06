@@ -1,6 +1,6 @@
-# MediCare – Offline-First Pharmacy App
+# MediCare – Offline-First e-commerce App
 
-MediCare is a high-performance, offline-first pharmacy and e-commerce application built with Flutter. Designed with **Clean Architecture** and **SOLID principles**, it provides a seamless user experience regardless of internet connectivity.
+MediCare is a high-performance, offline-first e-commerce application built with Flutter. Designed with **Clean Architecture** and **SOLID principles**, it provides a seamless user experience regardless of internet connectivity.
 
 ## 🚀 What I Have Built
 - **Product Ecosystem**: Comprehensive listing with real-time search and detailed product views.
