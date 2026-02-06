@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_care/l10n/app_localizations.dart';
@@ -10,6 +9,9 @@ import '../../../../shared/widgets/cart_icon_badge.dart';
 import '../../../cart/presentation/bloc/cart_bloc.dart';
 import '../../../cart/presentation/screens/cart_screen.dart';
 import '../../domain/entities/product.dart';
+import 'product_detail/widgets/bottom_action_bar.dart';
+import 'product_detail/widgets/delivery_info_item.dart';
+import 'product_detail/widgets/product_image_section.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.product});
@@ -80,7 +82,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Product Image Section
-                  _ProductImageSection(
+                  ProductImageSection(
                     imageUrl: widget.product.image,
                     discountPercentage: _discountPercentage,
                   ),
@@ -279,13 +281,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         ),
                         const SizedBox(height: AppDimensions.spacing16),
-                        _DeliveryInfoItem(
+                        DeliveryInfoItem(
                           icon: Icons.local_shipping_outlined,
                           title: l10n.freeDelivery,
                           subtitle: l10n.expectedDelivery,
                         ),
                         const SizedBox(height: AppDimensions.spacing16),
-                        _DeliveryInfoItem(
+                        DeliveryInfoItem(
                           icon: Icons.verified_outlined,
                           title: l10n.authentic,
                           subtitle: l10n.authenticDescription,
@@ -302,7 +304,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           BlocBuilder<CartBloc, CartState>(
             builder: (context, state) {
               final quantity = _getQuantityFromCart(state);
-              return _BottomActionBar(
+              return BottomActionBar(
                 quantity: quantity,
                 price: widget.product.price,
                 cartTotal: state.total,
@@ -320,297 +322,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _ProductImageSection extends StatelessWidget {
-  const _ProductImageSection({
-    required this.imageUrl,
-    required this.discountPercentage,
-  });
-
-  final String imageUrl;
-  final double discountPercentage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          height: AppTheme.imageHeight300,
-          child: CachedNetworkImage(
-            imageUrl: imageUrl,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Container(
-              color: AppTheme.surfaceGrey200,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-            errorWidget: (context, url, error) => Container(
-              color: AppTheme.surfaceGrey200,
-              child: const Icon(Icons.broken_image,
-                  size: AppDimensions.iconSize64),
-            ),
-          ),
-        ),
-        // Discount Badge
-        Positioned(
-          top: AppDimensions.spacing16,
-          left: AppDimensions.spacing16,
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppDimensions.spacing12,
-              vertical: AppDimensions.spacing6,
-            ),
-            decoration: BoxDecoration(
-              color: AppTheme.errorPink,
-              borderRadius: AppDimensions.borderRadiusCircular8,
-            ),
-            child: Text(
-              '${discountPercentage.toStringAsFixed(0)}% OFF',
-              style: AppTypography.textStyle14SemiBold.copyWith(
-                color: AppTheme.backgroundWhite,
-                fontWeight: AppTypography.fontWeightBold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _DeliveryInfoItem extends StatelessWidget {
-  const _DeliveryInfoItem({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: AppDimensions.padding8,
-          decoration: BoxDecoration(
-            color: AppTheme.primaryLight10,
-            borderRadius: AppDimensions.borderRadiusCircular8,
-          ),
-          child: Icon(
-            icon,
-            color: AppTheme.primary,
-            size: AppDimensions.iconSize24,
-          ),
-        ),
-        const SizedBox(width: AppDimensions.spacing12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTypography.textStyle15SemiBold.copyWith(
-                  color: AppTheme.textPrimary,
-                ),
-              ),
-              const SizedBox(height: AppDimensions.spacing4),
-              Text(
-                subtitle,
-                style: AppTypography.textStyle13Regular.copyWith(
-                  color: AppTheme.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _BottomActionBar extends StatelessWidget {
-  const _BottomActionBar({
-    required this.quantity,
-    required this.price,
-    required this.cartTotal,
-    required this.cartItemCount,
-    required this.onQuantityChanged,
-    required this.onAddToCart,
-    required this.onGoToCart,
-  });
-
-  final int quantity;
-  final double price;
-  final double cartTotal;
-  final int cartItemCount;
-  final ValueChanged<int> onQuantityChanged;
-  final VoidCallback onAddToCart;
-  final VoidCallback onGoToCart;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.backgroundWhite,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: AppTheme.opacity05),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      padding: AppTheme.bottomBarPadding,
-      child: SafeArea(
-        top: false,
-        child: quantity == 0
-            ? _buildAddToCartButton()
-            : _buildQuantityWithCartBar(),
-      ),
-    );
-  }
-
-  Widget _buildAddToCartButton() {
-    return SizedBox(
-      width: double.infinity,
-      height: 52,
-      child: ElevatedButton(
-        onPressed: onAddToCart,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppTheme.primary,
-          foregroundColor: AppTheme.backgroundWhite,
-          shape: RoundedRectangleBorder(
-            borderRadius: AppDimensions.borderRadiusCircular12,
-          ),
-          elevation: 0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.shopping_cart_outlined,
-                size: AppDimensions.iconSize20),
-            const SizedBox(width: AppDimensions.spacing8),
-            Text(
-              'Add to Cart  •  ₹${price.toStringAsFixed(0)}',
-              style: AppTypography.textStyle16SemiBold,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuantityWithCartBar() {
-    return Row(
-      children: [
-        // Quantity Selector
-        Container(
-          decoration: BoxDecoration(
-            color: AppTheme.primaryLight,
-            borderRadius: AppDimensions.borderRadiusCircular12,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(
-                  quantity == 1 ? Icons.delete_outline : Icons.remove,
-                  color: AppTheme.primary,
-                ),
-                onPressed: () => onQuantityChanged(quantity - 1),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(
-                  minWidth: AppTheme.buttonHeight40,
-                  minHeight: AppTheme.buttonHeight40,
-                ),
-              ),
-              SizedBox(
-                width: 30,
-                child: Text(
-                  '$quantity',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.textStyle16SemiBold.copyWith(
-                    fontWeight: AppTypography.fontWeightBold,
-                    color: AppTheme.textPrimary,
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add, color: AppTheme.primary),
-                onPressed: () => onQuantityChanged(quantity + 1),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(
-                  minWidth: AppTheme.buttonHeight40,
-                  minHeight: AppTheme.buttonHeight40,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: AppDimensions.spacing12),
-        // Go to Cart Button (Zepto style)
-        Expanded(
-          child: SizedBox(
-            height: 52,
-            child: ElevatedButton(
-              onPressed: onGoToCart,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-                foregroundColor: AppTheme.backgroundWhite,
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppDimensions.borderRadiusCircular12,
-                ),
-                elevation: 0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '$cartItemCount ${cartItemCount == 1 ? 'item' : 'items'}',
-                        style: AppTypography.textStyle12Regular.copyWith(
-                          color: AppTheme.textOnPrimary.withValues(alpha: 0.8),
-                        ),
-                      ),
-                      Text(
-                        '₹${cartTotal.toStringAsFixed(0)}',
-                        style: AppTypography.textStyle16SemiBold.copyWith(
-                          color: AppTheme.textOnPrimary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'View Cart',
-                        style: AppTypography.textStyle14SemiBold.copyWith(
-                          color: AppTheme.textOnPrimary,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.arrow_forward, size: 18),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
