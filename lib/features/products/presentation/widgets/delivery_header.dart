@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:medi_care/l10n/app_localizations.dart';
 import 'package:medi_care/core/theme/app_theme.dart';
 import 'package:medi_care/core/theme/app_dimensions.dart';
 import 'package:medi_care/core/theme/app_typography.dart';
+import '../../../../shared/widgets/cart_icon_badge.dart';
 import '../screens/product_list_screen.dart';
 import 'view_toggle.dart';
 
@@ -17,6 +19,7 @@ class DeliveryHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       bottom: false,
       child: Padding(
@@ -40,14 +43,14 @@ class DeliveryHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Deliver to',
+                    l10n.deliverTo,
                     style: AppTypography.textStyle11Regular.copyWith(
                       color: AppTheme.textSecondary,
                     ),
                   ),
-                  const Text(
-                    'Mumbai, 400001',
-                    style: TextStyle(
+                  Text(
+                    l10n.defaultAddress,
+                    style: const TextStyle(
                       fontWeight: AppTypography.fontWeightSemiBold,
                     ),
                   ),
@@ -58,6 +61,7 @@ class DeliveryHeader extends StatelessWidget {
               viewMode: viewMode,
               onChanged: onViewModeChanged,
             ),
+            const CartIconBadge(),
           ],
         ),
       ),

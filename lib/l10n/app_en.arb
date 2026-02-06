@@ -1,0 +1,328 @@
+{
+  "@@locale": "en",
+  
+  "appName": "MediCare",
+  "@appName": {
+    "description": "The application name"
+  },
+
+  "productDetails": "Product Details",
+  "@productDetails": {
+    "description": "Title for product details screen"
+  },
+
+  "searchMedicines": "Search products...",
+  "@searchMedicines": {
+    "description": "Placeholder text for search field"
+  },
+
+  "noProductsAvailable": "No products available.",
+  "@noProductsAvailable": {
+    "description": "Message when product list is empty"
+  },
+
+  "somethingWentWrong": "Something went wrong",
+  "@somethingWentWrong": {
+    "description": "Generic error message"
+  },
+
+  "connectToInternet": "Connect to the internet once to load products.",
+  "@connectToInternet": {
+    "description": "Message when app is offline on first launch"
+  },
+
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+
+  "retryConnection": "Retry Connection",
+  "@retryConnection": {
+    "description": "Retry connection button text"
+  },
+
+  "myCart": "My Cart",
+  "@myCart": {
+    "description": "Cart screen title"
+  },
+
+  "itemCount": "{count} {count, plural, =1{item} other{items}}",
+  "@itemCount": {
+    "description": "Item count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "yourCartIsEmpty": "Your cart is empty",
+  "@yourCartIsEmpty": {
+    "description": "Empty cart title"
+  },
+
+  "emptyCartDescription": "Looks like you haven't added any medicines yet.",
+  "@emptyCartDescription": {
+    "description": "Empty cart description"
+  },
+
+  "browseProducts": "Browse Products",
+  "@browseProducts": {
+    "description": "Button to browse products"
+  },
+
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Add to cart button text"
+  },
+
+  "add": "Add",
+  "@add": {
+    "description": "Short add button text"
+  },
+
+  "viewCart": "View Cart",
+  "@viewCart": {
+    "description": "View cart button text"
+  },
+
+  "clearCart": "Clear Cart",
+  "@clearCart": {
+    "description": "Clear cart dialog title"
+  },
+
+  "clearCartConfirmation": "Are you sure you want to remove all items?",
+  "@clearCartConfirmation": {
+    "description": "Clear cart confirmation message"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+
+  "clear": "Clear",
+  "@clear": {
+    "description": "Clear button text"
+  },
+
+  "proceedToCheckout": "Proceed to Checkout",
+  "@proceedToCheckout": {
+    "description": "Checkout button text"
+  },
+
+  "orderSummary": "Order Summary",
+  "@orderSummary": {
+    "description": "Order summary section title"
+  },
+
+  "itemsCount": "Items ({count})",
+  "@itemsCount": {
+    "description": "Items count label in summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "delivery": "Delivery",
+  "@delivery": {
+    "description": "Delivery label"
+  },
+
+  "free": "FREE",
+  "@free": {
+    "description": "Free delivery text"
+  },
+
+  "discount": "Discount",
+  "@discount": {
+    "description": "Discount label"
+  },
+
+  "total": "Total",
+  "@total": {
+    "description": "Total label"
+  },
+
+  "oops": "Oops!",
+  "@oops": {
+    "description": "Error state title"
+  },
+
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Try again button text"
+  },
+
+  "deliverTo": "Deliver to",
+  "@deliverTo": {
+    "description": "Delivery address label"
+  },
+
+  "defaultAddress": "Mumbai, 400001",
+  "@defaultAddress": {
+    "description": "Default delivery address"
+  },
+
+  "ratings": "{count} ratings",
+  "@ratings": {
+    "description": "Rating count text",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Save label"
+  },
+
+  "inStock": "In Stock",
+  "@inStock": {
+    "description": "In stock status"
+  },
+
+  "outOfStock": "Out of Stock",
+  "@outOfStock": {
+    "description": "Out of stock status"
+  },
+
+  "productDescription": "Product Description",
+  "@productDescription": {
+    "description": "Product description section title"
+  },
+
+  "readMore": "Read More",
+  "@readMore": {
+    "description": "Read more button text"
+  },
+
+  "readLess": "Read Less",
+  "@readLess": {
+    "description": "Read less button text"
+  },
+
+  "deliveryInformation": "Delivery Information",
+  "@deliveryInformation": {
+    "description": "Delivery information section title"
+  },
+
+  "freeDelivery": "Free Delivery",
+  "@freeDelivery": {
+    "description": "Free delivery title"
+  },
+
+  "expectedDelivery": "Expected delivery in 2-3 business days",
+  "@expectedDelivery": {
+    "description": "Expected delivery description"
+  },
+
+  "authentic": "100% Authentic",
+  "@authentic": {
+    "description": "Authenticity title"
+  },
+
+  "authenticDescription": "Sourced directly from manufacturers",
+  "@authenticDescription": {
+    "description": "Authenticity description"
+  },
+
+  "offlineShowingCached": "Offline • Showing cached data",
+  "@offlineShowingCached": {
+    "description": "Offline status message"
+  },
+
+  "offlineWithLastSync": "Offline • Last synced {time}",
+  "@offlineWithLastSync": {
+    "description": "Offline status with last sync time",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+
+  "syncedJustNow": "Synced just now",
+  "@syncedJustNow": {
+    "description": "Synced just now message"
+  },
+
+  "syncedMinutesAgo": "Synced {minutes} min ago",
+  "@syncedMinutesAgo": {
+    "description": "Synced minutes ago message",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "syncedHoursAgo": "Synced {hours} hr ago",
+  "@syncedHoursAgo": {
+    "description": "Synced hours ago message",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+
+  "syncedDaysAgo": "Synced {days} days ago",
+  "@syncedDaysAgo": {
+    "description": "Synced days ago message",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "syncedNever": "Never synced",
+  "@syncedNever": {
+    "description": "Never synced message"
+  },
+
+  "priceEach": "each",
+  "@priceEach": {
+    "description": "Price per item suffix"
+  },
+
+  "percentOff": "{percent}% OFF",
+  "@percentOff": {
+    "description": "Discount percentage badge",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+
+  "addToCartWithPrice": "Add to Cart  •  ₹{price}",
+  "@addToCartWithPrice": {
+    "description": "Add to cart button with price",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+
+  "saveAmount": "Save ₹{amount}",
+  "@saveAmount": {
+    "description": "Amount saved badge",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+
+  "currencySymbol": "₹",
+  "@currencySymbol": {
+    "description": "Currency symbol for India"
+  }
+}

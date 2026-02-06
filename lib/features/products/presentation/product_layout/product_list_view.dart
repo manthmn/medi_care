@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:medi_care/core/utils/responsive_grid.dart';
 import '../../domain/entities/product.dart';
 
+import '../screens/product_detail_screen.dart';
 import 'product_card.dart';
 import 'product_layout.dart';
 
@@ -17,8 +19,7 @@ class ProductListView extends StatelessWidget {
     required this.products,
     required this.layout,
     this.controller,
-    this.padding =
-        const EdgeInsets.fromLTRB(16, 12, 16, 16),
+    this.padding = const EdgeInsets.fromLTRB(16, 12, 16, 16),
   });
 
   @override
@@ -73,9 +74,9 @@ class _GridView extends StatelessWidget {
       padding: padding,
       itemCount: products.length,
 
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        // based on device size
+        crossAxisCount: ResponsiveGrid.crossAxisCount(context),
 
         /// controls card height - lower ratio = taller cards
         childAspectRatio: 0.56,
@@ -91,7 +92,11 @@ class _GridView extends StatelessWidget {
           product: product,
           layout: ProductLayout.grid,
           onTap: () {
-            // TODO: Navigate to product detail
+            Navigator.pushNamed(
+              context,
+              ProductDetailScreen.routeName,
+              arguments: product,
+            );
           },
         );
       },
@@ -125,8 +130,7 @@ class _ListView extends StatelessWidget {
       padding: padding,
       itemCount: products.length,
 
-      separatorBuilder: (_, __) =>
-          const SizedBox(height: 12),
+      separatorBuilder: (_, __) => const SizedBox(height: 12),
 
       itemBuilder: (_, index) {
         final product = products[index];
@@ -135,7 +139,11 @@ class _ListView extends StatelessWidget {
           product: product,
           layout: ProductLayout.list,
           onTap: () {
-            // TODO: Navigate to product detail
+            Navigator.pushNamed(
+              context,
+              ProductDetailScreen.routeName,
+              arguments: product,
+            );
           },
         );
       },
