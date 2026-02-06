@@ -46,8 +46,8 @@ class $ProductsTableTable extends ProductsTable
       const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      'updated_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
       [id, title, price, description, image, rating, updatedAt];
@@ -97,8 +97,6 @@ class $ProductsTableTable extends ProductsTable
     if (data.containsKey('updated_at')) {
       context.handle(_updatedAtMeta,
           updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
     }
     return context;
   }
@@ -122,7 +120,7 @@ class $ProductsTableTable extends ProductsTable
       rating: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}rating'])!,
       updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at']),
     );
   }
 
@@ -140,7 +138,7 @@ class ProductsTableData extends DataClass
   final String description;
   final String image;
   final double rating;
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   const ProductsTableData(
       {required this.id,
       required this.title,
@@ -148,7 +146,7 @@ class ProductsTableData extends DataClass
       required this.description,
       required this.image,
       required this.rating,
-      required this.updatedAt});
+      this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -158,7 +156,9 @@ class ProductsTableData extends DataClass
     map['description'] = Variable<String>(description);
     map['image'] = Variable<String>(image);
     map['rating'] = Variable<double>(rating);
-    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
     return map;
   }
 
@@ -170,7 +170,9 @@ class ProductsTableData extends DataClass
       description: Value(description),
       image: Value(image),
       rating: Value(rating),
-      updatedAt: Value(updatedAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
     );
   }
 
@@ -184,7 +186,7 @@ class ProductsTableData extends DataClass
       description: serializer.fromJson<String>(json['description']),
       image: serializer.fromJson<String>(json['image']),
       rating: serializer.fromJson<double>(json['rating']),
-      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
   }
   @override
@@ -197,7 +199,7 @@ class ProductsTableData extends DataClass
       'description': serializer.toJson<String>(description),
       'image': serializer.toJson<String>(image),
       'rating': serializer.toJson<double>(rating),
-      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
   }
 
@@ -208,7 +210,7 @@ class ProductsTableData extends DataClass
           String? description,
           String? image,
           double? rating,
-          DateTime? updatedAt}) =>
+          Value<DateTime?> updatedAt = const Value.absent()}) =>
       ProductsTableData(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -216,7 +218,7 @@ class ProductsTableData extends DataClass
         description: description ?? this.description,
         image: image ?? this.image,
         rating: rating ?? this.rating,
-        updatedAt: updatedAt ?? this.updatedAt,
+        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
       );
   ProductsTableData copyWithCompanion(ProductsTableCompanion data) {
     return ProductsTableData(
@@ -268,7 +270,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductsTableData> {
   final Value<String> description;
   final Value<String> image;
   final Value<double> rating;
-  final Value<DateTime> updatedAt;
+  final Value<DateTime?> updatedAt;
   const ProductsTableCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -285,12 +287,11 @@ class ProductsTableCompanion extends UpdateCompanion<ProductsTableData> {
     required String description,
     required String image,
     this.rating = const Value.absent(),
-    required DateTime updatedAt,
+    this.updatedAt = const Value.absent(),
   })  : title = Value(title),
         price = Value(price),
         description = Value(description),
-        image = Value(image),
-        updatedAt = Value(updatedAt);
+        image = Value(image);
   static Insertable<ProductsTableData> custom({
     Expression<int>? id,
     Expression<String>? title,
@@ -318,7 +319,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductsTableData> {
       Value<String>? description,
       Value<String>? image,
       Value<double>? rating,
-      Value<DateTime>? updatedAt}) {
+      Value<DateTime?>? updatedAt}) {
     return ProductsTableCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -802,7 +803,7 @@ typedef $$ProductsTableTableCreateCompanionBuilder = ProductsTableCompanion
   required String description,
   required String image,
   Value<double> rating,
-  required DateTime updatedAt,
+  Value<DateTime?> updatedAt,
 });
 typedef $$ProductsTableTableUpdateCompanionBuilder = ProductsTableCompanion
     Function({
@@ -812,7 +813,7 @@ typedef $$ProductsTableTableUpdateCompanionBuilder = ProductsTableCompanion
   Value<String> description,
   Value<String> image,
   Value<double> rating,
-  Value<DateTime> updatedAt,
+  Value<DateTime?> updatedAt,
 });
 
 class $$ProductsTableTableFilterComposer
@@ -940,7 +941,7 @@ class $$ProductsTableTableTableManager extends RootTableManager<
             Value<String> description = const Value.absent(),
             Value<String> image = const Value.absent(),
             Value<double> rating = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
+            Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
               ProductsTableCompanion(
             id: id,
@@ -958,7 +959,7 @@ class $$ProductsTableTableTableManager extends RootTableManager<
             required String description,
             required String image,
             Value<double> rating = const Value.absent(),
-            required DateTime updatedAt,
+            Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
               ProductsTableCompanion.insert(
             id: id,

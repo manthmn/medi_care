@@ -7,6 +7,7 @@ import '../../../../core/network/connectivity_cubit.dart';
 import '../../../../core/preferences/preferences_service.dart';
 import '../../../../injector.dart';
 import '../bloc/product_bloc.dart';
+import '../bloc/sync_cubit.dart';
 import '../product_layout/product_layout.dart';
 import '../product_layout/product_list_view.dart';
 import '../product_layout/product_skeleton_view.dart';
@@ -69,7 +70,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
               prev.status != ProductStatus.success &&
               curr.status == ProductStatus.success,
           listener: (context, state) {
-            context.read<ConnectivityCubit>().updateLastSynced();
+            context.read<SyncCubit>().updateLastSynced();
           },
         ),
       ],

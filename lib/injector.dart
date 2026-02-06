@@ -10,15 +10,21 @@ import 'core/preferences/preferences_service.dart';
 import 'features/cart/data/datasources/cart_local_data_source.dart';
 import 'features/cart/data/repositories/cart_repository_impl.dart';
 import 'features/cart/domain/repositories/cart_repository.dart';
-import 'features/cart/domain/usecases/cart_usecases.dart';
+import 'features/cart/domain/usecases/add_or_update_item.dart';
+import 'features/cart/domain/usecases/clear_cart.dart';
+import 'features/cart/domain/usecases/get_cart.dart';
+import 'features/cart/domain/usecases/remove_item.dart';
 import 'features/cart/presentation/bloc/cart_bloc.dart';
 import 'features/products/data/datasources/product_local_data_source.dart';
 import 'features/products/data/datasources/product_remote_data_source.dart';
 import 'features/products/data/repositories/product_repository_impl.dart';
+import 'features/products/data/repositories/sync_repository_impl.dart';
 import 'features/products/domain/repositories/product_repository.dart';
+import 'features/products/domain/repositories/sync_repository.dart';
 import 'features/products/domain/usecases/get_products.dart';
 import 'features/products/domain/usecases/search_products.dart';
 import 'features/products/presentation/bloc/product_bloc.dart';
+import 'features/products/presentation/bloc/sync_cubit.dart';
 import 'shared/data/local/app_database.dart';
 
 final sl = GetIt.instance;
@@ -67,6 +73,9 @@ Future<void> configureDependencies() async {
         networkInfo: sl(),
       ),
     )
+    ..registerLazySingleton<SyncRepository>(
+      () => SyncRepositoryImpl(sl()),
+    )
     ..registerLazySingleton<CartRepository>(
       () => CartRepositoryImpl(localDataSource: sl()),
     );
@@ -75,7 +84,14 @@ Future<void> configureDependencies() async {
   sl
     ..registerLazySingleton<GetProducts>(() => GetProducts(sl()))
     ..registerLazySingleton<SearchProducts>(() => SearchProducts())
-    ..registerLazySingleton<CartUseCases>(() => CartUseCases(sl()));
+    ..registerLazySingleton<GetCartUseCase>(() => GetCartUseCase(sl()))
+    ..registerLazySingleton<AddOrUpdateCartItemUseCase>(
+      () => AddOrUpdateCartItemUseCase(sl()),
+    )
+    ..registerLazySingleton<RemoveCartItemUseCase>(
+      () => RemoveCartItemUseCase(sl()),
+    )
+    ..registerLazySingleton<ClearCartUseCase>(() => ClearCartUseCase(sl()));
 
   // Blocs / Cubits
   sl
@@ -83,8 +99,10 @@ Future<void> configureDependencies() async {
       () => ConnectivityCubit(
         connectivity: sl(),
         networkInfo: sl(),
-        productLocalDataSource: sl(),
       ),
+    )
+    ..registerFactory(
+      () => SyncCubit(syncRepository: sl()),
     )
     ..registerFactory(
       () => ProductBloc(
@@ -93,6 +111,11 @@ Future<void> configureDependencies() async {
       ),
     )
     ..registerFactory(
-      () => CartBloc(cartUseCases: sl()),
+      () => CartBloc(
+        getCart: sl(),
+        addOrUpdateItem: sl(),
+        removeItem: sl(),
+        clearCart: sl(),
+      ),
     );
 }

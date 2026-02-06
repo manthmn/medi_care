@@ -41,8 +41,9 @@ class CartScreen extends StatelessWidget {
             case CartStatus.empty:
               return _EmptyCart(
                 onBrowse: () {
-                  Navigator.of(context).pushReplacementNamed(
+                  Navigator.of(context).pushNamedAndRemoveUntil(
                     ProductListScreen.routeName,
+                    (route) => false,
                   );
                 },
               );

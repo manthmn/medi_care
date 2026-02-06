@@ -1,5 +1,4 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,6 +10,7 @@ import 'features/cart/presentation/screens/cart_screen.dart';
 import 'features/products/domain/entities/product.dart';
 import 'features/products/presentation/bloc/product_bloc.dart';
 import 'features/products/presentation/screens/product_detail_screen.dart';
+import 'features/products/presentation/bloc/sync_cubit.dart';
 import 'features/products/presentation/screens/product_list_screen.dart';
 import 'injector.dart';
 
@@ -20,7 +20,7 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-      enabled: kDebugMode, // Only enabled in debug mode
+      enabled: false, // Only enabled in debug mode
       builder: (context) => const MyApp(),
     ),
   );
@@ -35,6 +35,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<ConnectivityCubit>(
           create: (_) => sl<ConnectivityCubit>()..startListening(),
+        ),
+        BlocProvider<SyncCubit>(
+          create: (_) => sl<SyncCubit>()..loadLastSynced(),
         ),
         BlocProvider<ProductBloc>(
           create: (_) =>

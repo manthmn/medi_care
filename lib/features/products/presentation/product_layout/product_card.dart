@@ -16,6 +16,8 @@ class ProductCard extends StatelessWidget {
     required this.onTap,
   });
 
+  bool get _isOutOfStock => product.id.hashCode % 7 == 0;
+
   int? _discount() {
     final random = product.id.hashCode % 4;
     if (random == 0) return 25;
@@ -33,12 +35,14 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final discount = _discount();
     final original = _originalPrice(discount);
+    final isOutOfStock = _isOutOfStock;
 
     if (layout == ProductLayout.grid) {
       return ProductCardGrid(
         product: product,
         discount: discount,
         originalPrice: original,
+        isOutOfStock: isOutOfStock,
         onTap: onTap,
       );
     }
@@ -47,6 +51,7 @@ class ProductCard extends StatelessWidget {
       product: product,
       discount: discount,
       originalPrice: original,
+      isOutOfStock: isOutOfStock,
       onTap: onTap,
     );
   }

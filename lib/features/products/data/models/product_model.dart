@@ -1,31 +1,39 @@
-import 'package:drift/drift.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:drift/drift.dart' show Value;
 
 import '../../domain/entities/product.dart';
 import '../../../../shared/data/local/app_database.dart';
 
-class ProductModel extends Product {
-  const ProductModel({
-    required super.id,
-    required super.title,
-    required super.price,
-    required super.description,
-    required super.image,
-    required super.rating,
-    required super.updatedAt,
-  });
+part 'product_model.freezed.dart';
+part 'product_model.g.dart';
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    final ratingJson = json['rating'] as Map<String, dynamic>?;
-    return ProductModel(
-      id: (json['id'] as num).toInt(),
-      title: json['title'] as String,
-      price: (json['price'] as num).toDouble(),
-      description: json['description'] as String,
-      image: json['image'] as String,
-      rating: ratingJson != null ? (ratingJson['rate'] as num).toDouble() : 0,
-      updatedAt: DateTime.now(),
-    );
-  }
+@freezed
+class RatingModel with _$RatingModel {
+  const factory RatingModel({
+    required double rate,
+    required int count,
+  }) = _RatingModel;
+
+  factory RatingModel.fromJson(Map<String, dynamic> json) =>
+      _$RatingModelFromJson(json);
+}
+
+@freezed
+class ProductModel with _$ProductModel {
+  const ProductModel._();
+
+  const factory ProductModel({
+    required int id,
+    required String title,
+    required double price,
+    required String description,
+    required String image,
+    required RatingModel rating,
+    DateTime? updatedAt,
+  }) = _ProductModel;
+
+  factory ProductModel.fromJson(Map<String, dynamic> json) =>
+      _$ProductModelFromJson(json).copyWith(updatedAt: DateTime.now());
 
   factory ProductModel.fromDb(ProductsTableData row) {
     return ProductModel(
@@ -34,7 +42,7 @@ class ProductModel extends Product {
       price: row.price,
       description: row.description,
       image: row.image,
-      rating: row.rating,
+      rating: RatingModel(rate: row.rating, count: 0),
       updatedAt: row.updatedAt,
     );
   }
@@ -46,9 +54,20 @@ class ProductModel extends Product {
       price: Value(price),
       description: Value(description),
       image: Value(image),
-      rating: Value(rating),
+      rating: Value(rating.rate),
       updatedAt: Value(updatedAt),
     );
   }
-}
 
+  Product toDomain() {
+    return Product(
+      id: id,
+      title: title,
+      price: price,
+      description: description,
+      image: image,
+      rating: rating.rate,
+      updatedAt: updatedAt ?? DateTime.now(),
+    );
+  }
+}

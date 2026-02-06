@@ -9,46 +9,21 @@ enum ProductStatus {
   firstLaunchOffline,
 }
 
-class ProductState extends Equatable {
-  const ProductState({
-    required this.status,
-    required this.allProducts,
-    required this.visibleProducts,
-    required this.searchQuery,
-    required this.error,
-  });
+@freezed
+class ProductState with _$ProductState {
+  const factory ProductState({
+    required ProductStatus status,
+    required List<Product> allProducts,
+    required List<Product> visibleProducts,
+    required String searchQuery,
+    required String? error,
+  }) = _ProductState;
 
-  const ProductState.initial()
-      : status = ProductStatus.initial,
-        allProducts = const [],
-        visibleProducts = const [],
-        searchQuery = '',
-        error = null;
-
-  final ProductStatus status;
-  final List<Product> allProducts;
-  final List<Product> visibleProducts;
-  final String searchQuery;
-  final String? error;
-
-  ProductState copyWith({
-    ProductStatus? status,
-    List<Product>? allProducts,
-    List<Product>? visibleProducts,
-    String? searchQuery,
-    String? error,
-  }) {
-    return ProductState(
-      status: status ?? this.status,
-      allProducts: allProducts ?? this.allProducts,
-      visibleProducts: visibleProducts ?? this.visibleProducts,
-      searchQuery: searchQuery ?? this.searchQuery,
-      error: error,
-    );
-  }
-
-  @override
-  List<Object?> get props =>
-      [status, allProducts, visibleProducts, searchQuery, error];
+  factory ProductState.initial() => const ProductState(
+        status: ProductStatus.initial,
+        allProducts: [],
+        visibleProducts: [],
+        searchQuery: '',
+        error: null,
+      );
 }
-

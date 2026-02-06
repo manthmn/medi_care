@@ -20,7 +20,7 @@ void main() {
 
   setUp(() {
     mockCartBloc = MockCartBloc();
-    when(() => mockCartBloc.state).thenReturn(const CartState.initial());
+    when(() => mockCartBloc.state).thenReturn(CartState.initial());
     when(() => mockCartBloc.stream).thenAnswer((_) => const Stream.empty());
   });
 

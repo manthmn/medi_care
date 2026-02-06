@@ -14,7 +14,7 @@ class ProductsTable extends Table {
   TextColumn get description => text()();
   TextColumn get image => text()();
   RealColumn get rating => real().withDefault(const Constant(0))();
-  DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
