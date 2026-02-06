@@ -113,8 +113,7 @@ The project follows a strict 3-layer architecture to ensure separation of concer
 ## 📸 Screenshots & Demo
 *Add your screenshots or video links here*
 
-| Product List | Detailed View | Cart Page |
-| :---: | :---: | :---: |
-| ![List](https://via.placeholder.com/200x400?text=Product+List) | ![Details](https://via.placeholder.com/200x400?text=Details) | ![Cart](https://via.placeholder.com/200x400?text=Cart) |
+https://drive.google.com/file/d/1DUpL_z1rnwpYvVXrbmP7_6FuOtSNrJWd/view?usp=sharing
+https://drive.google.com/file/d/10fgyhiaQjj-hJAGXNkVpicS30Iol67-B/view?usp=sharing
 
 ---
