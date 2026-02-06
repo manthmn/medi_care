@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medi_care/l10n/app_localizations.dart';
 import '../bloc/product_bloc.dart';
 import 'package:medi_care/core/theme/app_theme.dart';
 import 'package:medi_care/core/theme/app_dimensions.dart';
@@ -37,6 +38,7 @@ class _SearchFieldState extends State<SearchField> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
       child: TextField(
@@ -44,7 +46,7 @@ class _SearchFieldState extends State<SearchField> {
         focusNode: _focusNode,
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-          hintText: 'Search medicines...',
+          hintText: l10n.searchMedicines,
           hintStyle: TextStyle(
             color: AppTheme.textSecondary,
             fontWeight: FontWeight.w400,

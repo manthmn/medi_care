@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../../../core/network/image_cache_manager.dart';
 import 'product_shimmer.dart';
 
 class ProductImage extends StatelessWidget {
@@ -38,6 +39,7 @@ class ProductImage extends StatelessWidget {
       borderRadius: borderRadius ?? BorderRadius.zero,
       child: CachedNetworkImage(
         imageUrl: url,
+        cacheManager: AppImageCacheManager.instance,
         height: height,
         width: width ?? double.infinity,
         fit: BoxFit.cover,
