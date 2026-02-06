@@ -70,6 +70,10 @@ dependencies:
   # Preferences
   shared_preferences: ^2.2.2
 
+  # Code generation annotations
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+
   # Device preview for testing on different devices
   device_preview: ^1.2.0
 
@@ -87,6 +91,8 @@ dev_dependencies:
   # Code generation
   build_runner: ^2.4.13
   drift_dev: ^2.18.0
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
 
   # Testing
   bloc_test: ^10.0.0

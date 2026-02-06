@@ -52,7 +52,8 @@ class CartRepositoryImpl implements CartRepository {
             await _localDataSource.getProductForCartRow(row.productId);
         if (productRow == null) continue;
         final product = ProductModel.fromDb(productRow);
-        result.add(CartItem(product: product, quantity: row.quantity));
+        result
+            .add(CartItem(product: product.toDomain(), quantity: row.quantity));
       }
       return Right(result);
     } catch (e) {
@@ -70,4 +71,3 @@ class CartRepositoryImpl implements CartRepository {
     }
   }
 }
-

@@ -12,6 +12,9 @@ class AppConstants {
   /// API Endpoints
   static const String productsEndpoint = '/products';
 
+  /// Database keys
+  static const String productsLastSyncedKey = 'products_last_synced';
+
   // ===========================================================================
   // TIMEOUTS
   // ===========================================================================

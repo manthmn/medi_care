@@ -2,38 +2,22 @@ part of 'cart_bloc.dart';
 
 enum CartStatus { initial, loading, success, empty, error }
 
-class CartState extends Equatable {
-  const CartState({
-    required this.status,
-    required this.items,
-    required this.error,
-  });
+@freezed
+class CartState with _$CartState {
+  const CartState._();
 
-  const CartState.initial()
-      : status = CartStatus.initial,
-        items = const [],
-        error = null;
+  const factory CartState({
+    required CartStatus status,
+    required List<CartItem> items,
+    required String? error,
+  }) = _CartState;
 
-  final CartStatus status;
-  final List<CartItem> items;
-  final String? error;
+  factory CartState.initial() => const CartState(
+        status: CartStatus.initial,
+        items: [],
+        error: null,
+      );
 
-  double get total =>
-      items.fold(0, (previousValue, element) => previousValue + element.totalPrice);
-
-  CartState copyWith({
-    CartStatus? status,
-    List<CartItem>? items,
-    String? error,
-  }) {
-    return CartState(
-      status: status ?? this.status,
-      items: items ?? this.items,
-      error: error,
-    );
-  }
-
-  @override
-  List<Object?> get props => [status, items, error];
+  double get total => items.fold(
+      0, (previousValue, element) => previousValue + element.totalPrice);
 }
-

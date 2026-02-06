@@ -1,3 +1,5 @@
+import 'package:medi_care/core/constants/app_constants.dart';
+
 import '../../../../shared/data/local/app_database.dart';
 import '../models/product_model.dart';
 
@@ -12,7 +14,6 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   ProductLocalDataSourceImpl(this._db);
 
   final AppDatabase _db;
-  static const _lastSyncedKey = 'products_last_synced';
 
   @override
   Future<void> cacheProducts(List<ProductModel> products) async {
@@ -27,14 +28,14 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
 
   @override
   Future<void> setLastSynced(DateTime time) {
-    return _db.setMetadata(_lastSyncedKey, time.toIso8601String());
+    return _db.setMetadata(
+        AppConstants.productsLastSyncedKey, time.toIso8601String());
   }
 
   @override
   Future<DateTime?> getLastSynced() async {
-    final value = await _db.getMetadata(_lastSyncedKey);
+    final value = await _db.getMetadata(AppConstants.productsLastSyncedKey);
     if (value == null) return null;
     return DateTime.tryParse(value);
   }
 }
-

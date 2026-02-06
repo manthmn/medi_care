@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,6 +12,7 @@ import '../../domain/usecases/search_products.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
+part 'product_bloc.freezed.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc({
@@ -18,7 +20,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     required SearchProducts searchProducts,
   })  : _getProducts = getProducts,
         _searchProducts = searchProducts,
-        super(const ProductState.initial()) {
+        super(ProductState.initial()) {
     on<_LoadRequested>(_onLoadRequested);
     on<_SearchQueryChanged>(_onSearchQueryChanged,
         transformer: _debounce(const Duration(milliseconds: 300)));
@@ -75,4 +77,3 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         events.debounceTime(duration).asyncExpand(mapper);
   }
 }
-

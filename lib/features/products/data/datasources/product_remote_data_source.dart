@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:medi_care/core/constants/app_constants.dart';
 
 import '../models/product_model.dart';
 
@@ -13,7 +14,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> fetchProducts() async {
-    final response = await _dio.get<List<dynamic>>('/products');
+    final response =
+        await _dio.get<List<dynamic>>(AppConstants.productsEndpoint);
     final data = response.data ?? [];
     return data
         .map(
@@ -22,4 +24,3 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         .toList();
   }
 }
-

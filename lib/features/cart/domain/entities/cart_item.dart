@@ -1,19 +1,16 @@
-import 'package:equatable/equatable.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../products/domain/entities/product.dart';
 
-class CartItem extends Equatable {
-  const CartItem({
-    required this.product,
-    required this.quantity,
-  });
+part 'cart_item.freezed.dart';
 
-  final Product product;
-  final int quantity;
+@freezed
+class CartItem with _$CartItem {
+  const CartItem._();
+
+  const factory CartItem({
+    required Product product,
+    required int quantity,
+  }) = _CartItem;
 
   double get totalPrice => product.price * quantity;
-
-  @override
-  List<Object?> get props => [product, quantity];
 }
-

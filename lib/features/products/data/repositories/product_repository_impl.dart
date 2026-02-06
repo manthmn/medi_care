@@ -29,16 +29,20 @@ class ProductRepositoryImpl implements ProductRepository {
       try {
         final remote = await _remoteDataSource.fetchProducts();
         await _cacheProducts(remote);
-        return Right(remote);
+        return Right(remote.map((m) => m.toDomain()).toList());
       } catch (e) {
         // Remote failed; gracefully fall back to cache.
         final cached = await _getFromCache();
-        if (cached != null) return Right(cached);
+        if (cached != null) {
+          return Right(cached.map((m) => m.toDomain()).toList());
+        }
         return Left(ServerFailure('Failed to load products: $e'));
       }
     } else {
       final cached = await _getFromCache();
-      if (cached != null) return Right(cached);
+      if (cached != null) {
+        return Right(cached.map((m) => m.toDomain()).toList());
+      }
       return const Left(
         CacheFailure(
           'No network connection and no cached data available. Please connect to the internet once.',
@@ -58,4 +62,3 @@ class ProductRepositoryImpl implements ProductRepository {
     return cached;
   }
 }
-
